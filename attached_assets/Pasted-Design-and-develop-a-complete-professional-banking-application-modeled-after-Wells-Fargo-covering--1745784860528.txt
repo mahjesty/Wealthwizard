@@ -1,0 +1,22 @@
+Design and develop a complete professional banking application, modeled after Wells Fargo, covering mobile apps, web apps, and an admin panel.
+
+Part 1: UI/UX Design
+Create a clean, modern, and intuitive UI/UX for users to manage accounts (checking, savings, loans, credit cards), view transaction history, make transfers, pay bills, deposit checks via mobile, manage cards (lock/unlock), and contact customer support.
+The app should support light and dark themes, clear hierarchy, strong call-to-actions, and a secure, trust-focused banking visual style.
+The Admin panel should have clear navigation for user management, account control, KYC/AML verification review, transaction monitoring, fraud alert handling, support ticket management, and reporting dashboards.
+Provide a design system (colors, typography, button styles) suitable for a financial institution, following banking design principles.
+
+Part 2: Full-Stack Development Plan
+Build the application frontend using React.js for web and Flutter for mobile apps. Backend should be built with Node.js (Express framework) and secure RESTful APIs.
+Implement features including user authentication (password + biometrics + two-factor authentication), KYC onboarding, account overview, internal transfers, external bank transfers, bill payment, card management, transaction notifications, support chat, and settings management.
+For the Admin backend, include user verification (approve/reject KYC), transaction search and review, account freezing/unfreezing, ticket resolution, and fraud alerts.
+
+Part 3: System Architecture
+Use a microservices architecture hosted on AWS or Google Cloud, with services divided into Authentication, KYC/AML, Accounts, Transactions, Support Tickets, Fraud Detection, and Admin Management.
+Use PostgreSQL for structured data storage, Redis for session and caching management, and Kafka for real-time transaction events streaming.
+APIs must be secured with OAuth2 and JWT authentication.
+Ensure PCI DSS, GDPR, and SOC2 compliance with data encryption (at rest and in transit), DDoS protection, rate limiting, secure password hashing (bcrypt/argon2), Web Application Firewall (WAF), and regular security auditing.
+Also provide a database schema proposal for users, accounts, cards, transactions, loans, and support tickets.
+Recommend CI/CD practices and a Disaster Recovery Plan to ensure high availability, scalability, and minimal downtime.
+
+Prioritize banking-grade security, mobile responsiveness, seamless user experience, and real-time processing.”

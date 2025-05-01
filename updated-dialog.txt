@@ -1,0 +1,217 @@
+      {/* Card Application Dialog - Chipper Cash Style */}
+      <Dialog open={isAddCardOpen} onOpenChange={setIsAddCardOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Apply for Fortis Capital Card</DialogTitle>
+            <DialogDescription>
+              Complete your application for a new Fortis Capital card.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="py-4">
+            {/* Card eligibility information */}
+            <div className="mb-6 border border-neutral-200 dark:border-neutral-700 rounded-md p-4 bg-neutral-50 dark:bg-neutral-800">
+              <div className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <div>
+                  <h3 className="text-sm font-medium mb-1">You're eligible for a Fortis Capital Card</h3>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                    Our system has determined you qualify for a card based on your account history.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <Form {...cardForm}>
+              <form onSubmit={cardForm.handleSubmit(handleAddCard)} className="space-y-5">
+                <FormField
+                  control={cardForm.control}
+                  name="accountId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Link to Account</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select account" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {accounts.map((account: any) => (
+                            <SelectItem key={account.id} value={account.id.toString()}>
+                              {account.accountName} ({account.accountType}) - {account.accountNumber}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormDescription>
+                        Select the account you want to link to your new card
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+          
+                <FormField
+                  control={cardForm.control}
+                  name="cardholderName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Cardholder Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter name as it will appear on card" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        Name must match your identification documents
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+          
+                <FormField
+                  control={cardForm.control}
+                  name="cardVariant"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Card Delivery Method</FormLabel>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-col space-y-2"
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0 rounded-lg border p-4 cursor-pointer data-[state=checked]:border-primary">
+                          <FormControl>
+                            <RadioGroupItem value="virtual" />
+                          </FormControl>
+                          <div className="space-y-0.5 flex-1">
+                            <FormLabel className="text-base font-medium flex items-center justify-between cursor-pointer">
+                              Virtual Card
+                              <span className="text-xs font-normal bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 px-2 py-0.5 rounded">Instant Issue</span>
+                            </FormLabel>
+                            <FormDescription>
+                              Get your card details immediately for online purchases
+                            </FormDescription>
+                          </div>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0 rounded-lg border p-4 cursor-pointer data-[state=checked]:border-primary">
+                          <FormControl>
+                            <RadioGroupItem value="physical" />
+                          </FormControl>
+                          <div className="space-y-0.5 flex-1">
+                            <FormLabel className="text-base font-medium flex items-center justify-between cursor-pointer">
+                              Physical Card
+                              <span className="text-xs font-normal bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 px-2 py-0.5 rounded">7-10 days</span>
+                            </FormLabel>
+                            <FormDescription>
+                              Receive a plastic card by mail with contactless capability
+                            </FormDescription>
+                          </div>
+                        </FormItem>
+                      </RadioGroup>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                              
+                {/* Hidden fields - system determined values */}
+                <input type="hidden" {...cardForm.register("cardType")} value="debit" />
+                <input type="hidden" {...cardForm.register("cardNetwork")} value="visa" />
+                <input type="hidden" {...cardForm.register("cardBrand")} value="standard" />
+                <input type="hidden" {...cardForm.register("contactlessEnabled")} value="true" />
+                
+                {/* Card preview */}
+                <div className="rounded-lg border border-neutral-200 dark:border-neutral-700 p-4 bg-white dark:bg-neutral-900">
+                  <h3 className="text-sm font-medium mb-3">Your Card Preview</h3>
+                  
+                  <div className="w-full max-w-[320px] mx-auto aspect-[1.6/1] rounded-xl bg-gradient-to-br from-neutral-800 to-neutral-900 text-white p-4 shadow-md relative">
+                    {/* Network logo */}
+                    <div className="absolute top-3 right-3">
+                      <svg className="w-10 h-6" viewBox="0 0 48 16" fill="white">
+                        <path d="M44 0H4C1.8 0 0 1.8 0 4v8c0 2.2 1.8 4 4 4h40c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zm-23.4 12.9h-3.2L14.9 3.1h3.5l2.5 9.8zm15.2 0h-3l.8-2.2h-4.8l-.8 2.2h-3.4l4.6-9.8h3.8l2.8 9.8zm-6.3-4.4h3l-1.5-4.2-1.5 4.2zM19.6 6c0-.8-.5-1.5-1.6-1.5h-4.5v7.4h2.4V9.2h.4l2.1 2.7h3L19 8.9c1-.2 1.6-1.1 1.6-2.3v-.6zm-2.6.8h-1V6h1c.4 0 .7.2.7.4 0 .3-.3.4-.7.4zm21.7-3.7h-6.6v9.8h6.6v-2.1h-4.1V8.7h4V6.7h-4V5.1h4.1V3.1z"/>
+                      </svg>
+                    </div>
+                  
+                    <div className="mt-2">
+                      <p className="text-xs opacity-70 uppercase tracking-wider">
+                        Fortis Capital
+                      </p>
+                      <p className="font-medium text-sm">
+                        {cardForm.watch("cardVariant") === "virtual" ? "Virtual Debit" : "Debit Card"}
+                      </p>
+                    </div>
+                    
+                    <div className="mt-4">
+                      <p className="font-mono text-lg tracking-wider">••••  ••••  ••••  ••••</p>
+                    </div>
+                    
+                    <div className="flex justify-between mt-4 items-end">
+                      <div>
+                        <p className="text-xs opacity-70 uppercase">Cardholder</p>
+                        <p className="font-medium truncate max-w-[120px] text-sm">
+                          {cardForm.watch("cardholderName") || "YOUR NAME"}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-xs opacity-70 uppercase">Expires</p>
+                        <p className="font-medium text-sm">••/••</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card features and info message */}
+                <div className="border border-neutral-200 dark:border-neutral-700 rounded-md p-4 bg-neutral-50 dark:bg-neutral-800">
+                  <h3 className="text-sm font-medium mb-2">Card Features & Benefits</h3>
+                  <ul className="space-y-2 text-sm text-neutral-600 dark:text-neutral-400">
+                    <li className="flex items-start gap-2">
+                      <svg className="w-4 h-4 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <span>No monthly maintenance fees</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <svg className="w-4 h-4 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <span>{cardForm.watch("cardVariant") === "virtual" ? 
+                        "Use immediately for online purchases" : 
+                        "Tap-to-pay contactless technology"}</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <svg className="w-4 h-4 text-green-500 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      <span>Real-time transaction notifications</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div className="border-t pt-4 mt-4">
+                  <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4">
+                    By applying for this card, you agree to the <a href="#" className="text-primary underline">Terms & Conditions</a> and <a href="#" className="text-primary underline">Cardholder Agreement</a>.
+                  </p>
+                </div>
+          
+                <DialogFooter>
+                  <Button 
+                    variant="outline" 
+                    type="button" 
+                    onClick={() => setIsAddCardOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button type="submit" className="gap-2">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    {cardForm.watch("cardVariant") === "virtual" ? "Get Virtual Card" : "Apply for Card"}
+                  </Button>
+                </DialogFooter>
+              </form>
+            </Form>
+          </div>
+        </DialogContent>
+      </Dialog>
